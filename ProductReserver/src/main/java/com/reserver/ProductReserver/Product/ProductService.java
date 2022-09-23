@@ -2,7 +2,6 @@ package com.reserver.ProductReserver.Product;
 
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Method;
 import java.util.*;
 
 @Service
@@ -10,7 +9,7 @@ public class ProductService {
     List<Product> products = new ArrayList<>(Arrays.asList(
         new Product(1,"Clay", "Play-do", 3, "1-2-3", 5),
         new Product(2, "Sand", "SandO", 9, "1-3-4", 2),
-            new Product(3, "Spoon", "Spooonnn", 100, "1", 3)
+        new Product(3, "Spoon", "Spooonnn", 100, "1", 3)
     ));
 
     public Product getProductById(Integer id){
@@ -22,7 +21,12 @@ public class ProductService {
         return null;
     }
 
-    public void save(Product productToRemove, Product productToAdd){
+    public void createProduct(Product product){
+        product.setId(products.size() + 1);
+        products.add(product);
+    }
+
+    public void update(Product productToRemove, Product productToAdd){
         products.remove(productToRemove);
         products.add(productToAdd);
     }

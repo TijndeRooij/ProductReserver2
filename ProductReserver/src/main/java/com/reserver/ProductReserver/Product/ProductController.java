@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200", "http://localhost:8081" })
@@ -29,7 +31,17 @@ public class ProductController {
         Product productToRemove = productService.getProductById(id);
         product.setQuantity(productToRemove.getQuantity() - 1);
 
-        productService.save(productToRemove, product);
+        productService.update(productToRemove, product);
         return new ResponseEntity<Product>(product, HttpStatus.OK);
+    }
+
+    @PostMapping("/CreateProduct")
+    public ResponseEntity<Void> CreateProduct(@RequestBody Product product) {
+        productService.createProduct(product);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(product.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).build();
     }
 }
