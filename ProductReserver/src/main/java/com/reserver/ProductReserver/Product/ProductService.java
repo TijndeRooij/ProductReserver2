@@ -36,23 +36,36 @@ public class ProductService {
         {
             for (int i = 0; i <= products.size() - 2; i++)
             {
-                if (Objects.equals(sorter, "id") && products.get(i).getId() >= products.get(i + 1).getId())
+                if (Objects.equals(sorter, "id") && products.get(i).getId() > products.get(i + 1).getId())
                 {
                     System.out.println("id");
                     Collections.swap(products, i, i + 1);
                 }
-                if (Objects.equals(sorter, "rating") && products.get(i).getRating() >= products.get(i + 1).getRating())
+                else if (Objects.equals(sorter, "rating") && products.get(i).getRating() > products.get(i + 1).getRating())
                 {
                     System.out.println("rating");
                     Collections.swap(products, i, i + 1);
                 }
-                if (Objects.equals(sorter, "quantity") && products.get(i).getQuantity() >= products.get(i + 1).getQuantity())
+                else if (Objects.equals(sorter, "quantity") && products.get(i).getQuantity() > products.get(i + 1).getQuantity())
                 {
                     System.out.println("quantity");
                     Collections.swap(products, i, i + 1);
                 }
             }
         }
+        removeDuplicates();
         return products;
+    }
+
+    private void removeDuplicates() {
+        for (int j = 0; j <= products.size() - 2; j++)
+        {
+            for (int i = 0; i <= products.size() - 2; i++)
+            {
+                if (products.get(i).getId() == products.get(i + 1).getId()){
+                    products.remove(products.get(i));
+                }
+            }
+        }
     }
 }
