@@ -14,7 +14,7 @@ public class ProductService {
 
     public Product getProductById(Integer id){
         for (Product product : products){
-            if (product.getId() == id){
+            if (product.getId() == id) {
                 return product;
             }
         }
