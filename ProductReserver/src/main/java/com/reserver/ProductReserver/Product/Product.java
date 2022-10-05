@@ -7,18 +7,18 @@ public class Product {
     private String name;
     private String discription;
     private Integer quantity;
-    private String gideLines;
+    private String guideLines;
     private LocalDate startReservation;
     private LocalDate endReservation;
     private Integer rating;
     private LocalDate buyDate = LocalDate.now();
 
-    public Product(Integer id ,String name, String discription, Integer quantity, String gideLines, Integer rating) {
+    public Product(Integer id ,String name, String discription, Integer quantity, String guideLines, Integer rating) {
         this.id = id;
         this.name = name;
         this.discription = discription;
         this.quantity = quantity;
-        this.gideLines = gideLines;
+        this.guideLines = guideLines;
         this.rating = rating;
     }
 
@@ -54,12 +54,12 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public String getGideLines() {
-        return gideLines;
+    public String getGuideLines() {
+        return guideLines;
     }
 
-    public void setGideLines(String gideLines) {
-        this.gideLines = gideLines;
+    public void setGuideLines(String guideLines) {
+        this.guideLines = guideLines;
     }
 
     public LocalDate getStartReservation() {

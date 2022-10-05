@@ -26,10 +26,16 @@ public class ProductController {
         return productService.sortProductList(sorter);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product product){
+    @GetMapping("/name:/{name}")
+    public List<Product> getProductByName(@PathVariable String name){
+        System.out.println(name);
+        return productService.getProductByName(name);
+    }
+
+    @PutMapping("/{id}/{totalUse}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @PathVariable Integer totalUse, @RequestBody Product product){
         Product productToRemove = productService.getProductById(id);
-        product.setQuantity(productToRemove.getQuantity() - 1);
+        product.setQuantity(productToRemove.getQuantity() - totalUse);
 
         productService.update(productToRemove, product);
         return new ResponseEntity<Product>(product, HttpStatus.OK);
@@ -41,7 +47,6 @@ public class ProductController {
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(product.getId())
                 .toUri();
-
         return ResponseEntity.created(uri).build();
     }
 }
