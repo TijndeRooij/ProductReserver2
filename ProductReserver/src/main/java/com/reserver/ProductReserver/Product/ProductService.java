@@ -1,17 +1,46 @@
 package com.reserver.ProductReserver.Product;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
 public class ProductService {
+    @Autowired
+    private ProductRepository repo;
     List<Product> productsSortedByName = new ArrayList<>();
-    List<Product> products = new ArrayList<>(Arrays.asList(
-        new Product(1,"Clay", "Play-do", 3, "1-2-3", 5),
-        new Product(2, "Sand", "SandO", 9, "1-3-4", 2),
-        new Product(3, "Spoon", "Spooonnn", 100, "1", 3)
-    ));
+    List<Product> products = new ArrayList<>();
+
+    public void createProduct(Product product){
+        Product productToCreate = new Product();
+        productToCreate.setName(product.getName());
+        productToCreate.setDiscription(product.getDiscription());
+        productToCreate.setRating(5);
+        productToCreate.setQuantity(product.getQuantity());
+        productToCreate.setGuideLines(product.getGuideLines());
+        repo.save(productToCreate);
+    }
+
+    public void update(Product productToUpdate, Product updatedProduct){
+        repo.updateProduct(productToUpdate.getId(), updatedProduct.getName(), updatedProduct.getDiscription(), updatedProduct.getQuantity(), updatedProduct.getGuideLines());
+        System.out.println(updatedProduct.getName());
+    }
+
+    public Product deleteProduct(Integer id){
+        for(Product product : products){
+            if (product.getId().equals(id)){
+                repo.delete(product);
+                return product;
+            }
+        }
+        return null;
+    }
+
+    public void getProducts(){
+        products = repo.findAll();
+    }
 
     public Product getProductById(Integer id){
         for (Product product : products){
@@ -24,25 +53,14 @@ public class ProductService {
 
     public List<Product> getProductByName(String name){
         productsSortedByName.clear();
-        for (int i = 0; i < products.size(); i++){
-            if(products.get(i).getName().equals(name)){
-                System.out.println(products.get(i).getName());
-                productsSortedByName.add(products.get(i));
+        for (Product product : products) {
+            if (product.getName().equals(name)) {
+                productsSortedByName.add(product);
             }
         }
-        System.out.println(productsSortedByName.size());
         return productsSortedByName;
     }
 
-    public void createProduct(Product product){
-        product.setId(products.size() + 1);
-        products.add(product);
-    }
-
-    public void update(Product productToRemove, Product productToAdd){
-        products.remove(productToRemove);
-        products.add(productToAdd);
-    }
 
     public List<Product> sortProductList(String sorter){
         for (int j = 0; j <= products.size() - 2; j++)

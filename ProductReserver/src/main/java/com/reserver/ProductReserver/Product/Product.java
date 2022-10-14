@@ -1,25 +1,33 @@
 package com.reserver.ProductReserver.Product;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "products")
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String discription;
+    @Column(nullable = false)
     private Integer quantity;
+    @Column(nullable = false, name = "guideline")
     private String guideLines;
+    @Column(name = "start_reservation")
     private LocalDate startReservation;
+    @Column(name = "end_reservation")
     private LocalDate endReservation;
+    @Column
     private Integer rating;
+    @Column(name = "buy_date")
     private LocalDate buyDate = LocalDate.now();
 
-    public Product(Integer id ,String name, String discription, Integer quantity, String guideLines, Integer rating) {
-        this.id = id;
-        this.name = name;
-        this.discription = discription;
-        this.quantity = quantity;
-        this.guideLines = guideLines;
-        this.rating = rating;
+    public Product() {
+
     }
 
     public Integer getId() {
@@ -70,9 +78,7 @@ public class Product {
         this.startReservation = startReservation;
     }
 
-    public LocalDate getEndReservation() {
-        return endReservation;
-    }
+    public LocalDate getEndReservation() { return endReservation; }
 
     public void setEndReservation(LocalDate endReservation) {
         this.endReservation = endReservation;
