@@ -28,7 +28,7 @@ public class User {
     @Column(nullable = false, name = "signUp_date")
     private LocalDate signUpDate = LocalDate.now();
     @Column(nullable = false)
-    private Enum.userRole role;
+    private Enum.userRole role = Enum.userRole.teacher;
 
     public User() {
     }

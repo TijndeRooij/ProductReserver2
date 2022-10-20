@@ -1,11 +1,13 @@
 package com.reserver.ProductReserver.User;
 
-import com.reserver.ProductReserver.Product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+
+    @Autowired
+    private UserRepository userRepo;
 
     public void createUser(User user) {
         User newUser = new User();
@@ -17,5 +19,7 @@ public class UserService {
         newUser.setEmail(user.getEmail());
         newUser.setRole(user.getRole());
         newUser.setBirthday(user.getBirthday());
+        System.out.println(newUser.getPassword());
+        userRepo.save(newUser);
     }
 }
