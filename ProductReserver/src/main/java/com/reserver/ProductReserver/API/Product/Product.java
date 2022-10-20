@@ -1,4 +1,4 @@
-package com.reserver.ProductReserver.Product;
+package com.reserver.ProductReserver.API.Product;
 
 import javax.persistence.*;
 import java.time.LocalDate;

@@ -1,8 +1,6 @@
 package com.reserver.ProductReserver.Users;
 
-import com.reserver.ProductReserver.Enums.Enum;
-import com.reserver.ProductReserver.User.User;
-import com.reserver.ProductReserver.User.UserRepository;
+import com.reserver.ProductReserver.API.Enums.Enum;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

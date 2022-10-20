@@ -1,8 +1,8 @@
 package com.reserver.ProductReserver.Products;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.reserver.ProductReserver.Product.Product;
-import com.reserver.ProductReserver.Product.ProductRepository;
+import com.reserver.ProductReserver.API.Product.Product;
+import com.reserver.ProductReserver.API.Product.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
