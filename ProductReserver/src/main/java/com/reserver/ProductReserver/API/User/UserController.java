@@ -30,6 +30,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @RestController
+@CrossOrigin()
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserController {
@@ -42,6 +43,7 @@ public class UserController {
 
     @PostMapping("/user/save")
     public ResponseEntity<User>saveUser(@RequestBody User user) {
+        System.out.println("yeee");
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }

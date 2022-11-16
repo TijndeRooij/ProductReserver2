@@ -17,7 +17,10 @@ public class User {
     private String name;
     private String username;
     private String password;
-    private String email;
+    private String eMail;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
     @ManyToMany(fetch = EAGER)
     private Collection<Role> roles = new ArrayList<>();
 }

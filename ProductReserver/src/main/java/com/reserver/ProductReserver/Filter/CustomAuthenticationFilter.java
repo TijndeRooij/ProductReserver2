@@ -35,6 +35,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     //finds username and password
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        System.out.println("hello");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         log.info("Username is: {}", username); log.info("Password is: {}", password);
@@ -62,8 +63,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         tokens.put("access_token", access_token);
         tokens.put("refresh_token", refresh_token);
         response.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-        log.info("Access_token: {}", access_token);
-        log.info("Refresh_token: {}", refresh_token);
+        new ObjectMapper().writeValue(response.getOutputStream(),tokens); //serialize ouputstream to json
     }
 }
