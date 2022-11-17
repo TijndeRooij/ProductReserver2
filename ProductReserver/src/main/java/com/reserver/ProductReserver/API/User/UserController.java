@@ -8,8 +8,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reserver.ProductReserver.Domain.Role.Role;
 import com.reserver.ProductReserver.Domain.User.User;
 import com.reserver.ProductReserver.Domain.User.UserService;
+import com.reserver.ProductReserver.Domain.User.UserServiceImpl;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +32,8 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @RestController
-@CrossOrigin()
-@RequestMapping("/api")
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200", "http://localhost:8081" })
+@RequestMapping("")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -43,7 +45,6 @@ public class UserController {
 
     @PostMapping("/user/save")
     public ResponseEntity<User>saveUser(@RequestBody User user) {
-        System.out.println("yeee");
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
