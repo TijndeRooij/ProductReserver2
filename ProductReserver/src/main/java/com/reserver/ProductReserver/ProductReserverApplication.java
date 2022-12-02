@@ -1,16 +1,10 @@
 package com.reserver.ProductReserver;
 
-import com.reserver.ProductReserver.Domain.Role.Role;
-import com.reserver.ProductReserver.Domain.User.User;
-import com.reserver.ProductReserver.Domain.User.UserService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.ArrayList;
 
 @SpringBootApplication
 public class ProductReserverApplication {

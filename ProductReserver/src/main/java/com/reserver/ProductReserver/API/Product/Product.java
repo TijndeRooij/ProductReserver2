@@ -30,6 +30,16 @@ public class Product {
 
     }
 
+    public Product(Integer id, String name, String discription, Integer quantity, String guideLines, Integer rating, LocalDate buyDate) {
+        this.id = id;
+        this.name = name;
+        this.discription = discription;
+        this.quantity = quantity;
+        this.guideLines = guideLines;
+        this.rating = rating;
+        this.buyDate = buyDate;
+    }
+
     public Integer getId() {
         return id;
     }
