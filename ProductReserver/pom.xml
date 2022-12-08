@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath>pom.xml</relativePath> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.reserver</groupId>
 	<artifactId>ProductReserver</artifactId>
@@ -67,4 +67,13 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>4.0.0</version>
+			</plugin>
+		</plugins>
+	</build>
 </project>
