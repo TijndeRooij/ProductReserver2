@@ -66,7 +66,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                response.setHeader("Access-Control-Max-Age", "3600");
                response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
                filterChain.doFilter(request, response);
-           }
+           } //preflight request returnt OK status
        }
    }
 }
