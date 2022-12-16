@@ -28,15 +28,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Upload a file
-      uses: actions/upload-artifact@v3
-      with:
-        name: pom.xml file
-        path: pom.xml
     - name: Build with Maven
       run: mvn -B package -f ProductReserver/pom.xml
-    - name: Run Docker container
-      run: ProductReserver/docker-compose.yml up -d
+    - name: Start containers
+      run: docker-compose -f "ProductReserver/docker-compose.yml" up -d --build
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
