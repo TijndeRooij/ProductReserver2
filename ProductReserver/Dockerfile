@@ -4,10 +4,9 @@ WORKDIR /app
 
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
 
 COPY src ./src
-
-RUN chown -R node /app/node_modules
 
 EXPOSE 6000
 
