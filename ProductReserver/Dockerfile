@@ -3,8 +3,8 @@ FROM eclipse-temurin:11-jdk-jammy
 WORKDIR /app
 
 COPY .mvn/ .mvn
-RUN chmod a+x
 COPY mvnw pom.xml ./
+
 RUN mkdir /opt/app
 
 COPY src ./src

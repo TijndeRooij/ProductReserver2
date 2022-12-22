@@ -35,22 +35,22 @@ services:
 
   #service 3: definition of your spring-boot app
   productreserver:                        #it is just a name, which will be used only in this file.
-    image: springio/gs-spring-boot-docker               #name of the image after dockerfile executes
+    image: springio/gs-spring-boot-docker #name of the image after dockerfile executes
     container_name: product-reserver-app  #name of the container created from docker image
+    networks:
+      - productreserver-mysql
+    depends_on: #define dependencies of this app
+      - db
     build:
       context: .                          #docker file path (. means root directory)
       dockerfile: Dockerfile              #docker file name
     ports:
       - "5000:6000"                       #docker containter port with your os port
-    restart: "no"                         #dependency name (which is defined with this name 'db' in this file earlier)
+    restart: "no"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/productreserver?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: ""
-    networks:
-      - productreserver-mysql
-    depends_on: #define dependencies of this app
-      - db
+      SPRING_DATASOURCE_PASSWORD: ""                            #dependency name (which is defined with this name 'db' in this file earlier)
 
 networks:
   productreserver-mysql:
