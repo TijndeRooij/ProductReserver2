@@ -31,6 +31,8 @@ import java.util.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -67,8 +69,8 @@ public class ProductServiceTests {
     public void getAllProducts() throws Exception {
         List<Product> products = new ArrayList<>(Arrays.asList(Product_1, Product_2, Product_3));
 
-        Mockito.when(productRepository.findAll()).thenReturn((products));
-        productService.products = products;
+        Mockito.when(productRepository.findAll()).thenReturn(products);
+        //Mockito.when(productService.sortProductList("id")).thenReturn(products);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/id")
@@ -76,5 +78,6 @@ public class ProductServiceTests {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(3)));
                 //.andExpect(jsonPath("$[2].name", Matchers.is("Prod_3")));
+        //verify(productService, times(1)).sortProductList("id");
     }
 }

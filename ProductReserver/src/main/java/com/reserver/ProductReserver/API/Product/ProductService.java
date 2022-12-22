@@ -10,7 +10,7 @@ public class ProductService {
     @Autowired
     private ProductRepository repo;
     List<Product> productsSortedByName = new ArrayList<>();
-    public List<Product> products = new ArrayList<>();
+    List<Product> products = new ArrayList<>();
 
     public void createProduct(Product product){
         Product productToCreate = new Product();
@@ -39,7 +39,6 @@ public class ProductService {
 
     public void getProducts(){
         products = repo.findAll();
-        System.out.println("Getting all products: " + products);
     }
 
     public Product getProductById(Integer id){

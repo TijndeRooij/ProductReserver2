@@ -17,14 +17,18 @@ public class ProductController {
     private final ProductService productService;
 
     @Autowired
+    private ProductRepository repo;
+
+    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
     @GetMapping("/{sorter}")
     public List<Product> getSortedProducts(@PathVariable String sorter){
-        productService.getProducts();
-        return productService.sortProductList(sorter);
+        return repo.findAll();
+        //productService.getProducts();
+        //return productService.sortProductList(sorter);
     }
 
     @GetMapping("/name:/{name}")
