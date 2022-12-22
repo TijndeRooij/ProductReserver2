@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
-RUN mkdir ./mvnw dependency:go-offline
+RUN mkdir /opt/app ./mvnw dependency:go-offline
 
 COPY src ./src
 
