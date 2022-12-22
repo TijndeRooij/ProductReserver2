@@ -9,6 +9,4 @@ RUN mkdir /opt/app
 
 COPY src ./src
 
-EXPOSE 6000
-
 CMD ["./mvnw", "spring-boot:run"]
