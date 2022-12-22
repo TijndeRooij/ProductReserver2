@@ -5,12 +5,15 @@ services:
   db:
     image: mysql:latest
     container_name: mysql-2
+    networks:
+      - productreserver-mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
       MYSQL_DATABASE: productreserver
     ports:
       - "3306:3306"
     restart: "no"
+
 
 
   #service 2: definition of phpMyAdmin
@@ -20,6 +23,8 @@ services:
     ports:
       - "8082:80"
     restart: "no"
+    networks:
+      - productreserver-mysql
     depends_on:
       - db
     environment:
@@ -37,10 +42,15 @@ services:
       dockerfile: Dockerfile              #docker file name
     ports:
       - "5000:6000"                       #docker containter port with your os port
-    restart: "no"
-    depends_on:                           #define dependencies of this app
-      - db                                #dependency name (which is defined with this name 'db' in this file earlier)
+    restart: "no"                         #dependency name (which is defined with this name 'db' in this file earlier)
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/productreserver?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: ""
+    networks:
+      - productreserver-mysql
+    depends_on: #define dependencies of this app
+      - db
+
+networks:
+  productreserver-mysql:
