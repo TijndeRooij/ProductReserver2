@@ -26,9 +26,7 @@ public class ProductController {
 
     @GetMapping("/{sorter}")
     public List<Product> getSortedProducts(@PathVariable String sorter){
-        return repo.findAll();
-        //productService.getProducts();
-        //return productService.sortProductList(sorter);
+        return productService.sortProductList(sorter);
     }
 
     @GetMapping("/name:/{name}")

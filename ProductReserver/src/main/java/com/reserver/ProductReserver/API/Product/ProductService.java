@@ -10,7 +10,7 @@ public class ProductService {
     @Autowired
     private ProductRepository repo;
     List<Product> productsSortedByName = new ArrayList<>();
-    List<Product> products = new ArrayList<>();
+//    List<Product> products = new ArrayList<>();
 
     public void createProduct(Product product){
         Product productToCreate = new Product();
@@ -28,7 +28,7 @@ public class ProductService {
     }
 
     public Product deleteProduct(Integer id){
-        for(Product product : products){
+        for(Product product : repo.findAll()){
             if (product.getId().equals(id)){
                 repo.delete(product);
                 return product;
@@ -37,12 +37,12 @@ public class ProductService {
         return null;
     }
 
-    public void getProducts(){
-        products = repo.findAll();
+    public List<Product> getProducts(){
+        return repo.findAll();
     }
 
     public Product getProductById(Integer id){
-        for (Product product : products){
+        for (Product product : repo.findAll()){
             if (product.getId().equals(id)) {
                 return product;
             }
@@ -52,7 +52,7 @@ public class ProductService {
 
     public List<Product> getProductByName(String name){
         productsSortedByName.clear();
-        for (Product product : products) {
+        for (Product product : repo.findAll()) {
             if (product.getName().equals(name)) {
                 productsSortedByName.add(product);
             }
@@ -62,6 +62,9 @@ public class ProductService {
 
 
     public List<Product> sortProductList(String sorter){
+        List<Product> products;
+        products = repo.findAll();
+
         for (int j = 0; j <= products.size() - 2; j++)
         {
             for (int i = 0; i <= products.size() - 2; i++)
@@ -74,19 +77,6 @@ public class ProductService {
                 }
             }
         }
-        removeDuplicates();
         return products;
-    }
-
-    private void removeDuplicates() {
-        for (int j = 0; j <= products.size() - 2; j++)
-        {
-            for (int i = 0; i <= products.size() - 2; i++)
-            {
-                if (products.get(i).getId().equals(products.get(i + 1).getId())){
-                    products.remove(products.get(i));
-                }
-            }
-        }
     }
 }

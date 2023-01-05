@@ -4,9 +4,6 @@ WORKDIR /app
 
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
-
-RUN mkdir /opt/app
-
 COPY src ./src
 
 EXPOSE 6000
