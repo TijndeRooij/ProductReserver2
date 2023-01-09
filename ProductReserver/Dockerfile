@@ -7,6 +7,7 @@ COPY ./mvnw pom.xml ./
 COPY src ./src
 
 RUN chmod +x mvnw
+RUN ./mvnw dependency:go-offline
 
 EXPOSE 6000
 
