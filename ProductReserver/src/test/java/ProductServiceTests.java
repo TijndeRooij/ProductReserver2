@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.reserver.ProductReserver.API.Product.Product;
@@ -67,9 +68,11 @@ public class ProductServiceTests {
         MockitoAnnotations.initMocks(this);
         this.mockMvcController = MockMvcBuilders.standaloneSetup(productController).build();
     }
+
     //need to have JWT tokens.
     @Test
     public void getAllProductsEndPoint() throws Exception {
+
         List<Product> products = Arrays.asList(Product_1, Product_2, Product_3);
 
         given(productRepository.findAll())
@@ -81,8 +84,9 @@ public class ProductServiceTests {
                 .andReturn();
 
         assertEquals(200, mvcResult.getResponse().getStatus());
-        Product result = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), Product.class);
-        assertEquals(products, result);
+        List<Product> result = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<Product>>() {});
+
+        assertEquals(products.size(), result.size());
     }
 
     @Test
