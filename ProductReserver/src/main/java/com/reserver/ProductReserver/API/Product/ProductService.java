@@ -1,6 +1,7 @@
 package com.reserver.ProductReserver.API.Product;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -9,8 +10,8 @@ import java.util.*;
 public class ProductService {
     @Autowired
     private ProductRepository repo;
-    List<Product> productsSortedByName = new ArrayList<>();
-//    List<Product> products = new ArrayList<>();
+
+//    List<Product> productsSortedByName = new ArrayList<>();
 
     public void createProduct(Product product){
         Product productToCreate = new Product();
@@ -51,7 +52,7 @@ public class ProductService {
     }
 
     public List<Product> getProductByName(String name){
-        productsSortedByName.clear();
+        List<Product> productsSortedByName = new ArrayList<>();
         for (Product product : repo.findAll()) {
             if (product.getName().equals(name)) {
                 productsSortedByName.add(product);
@@ -62,6 +63,7 @@ public class ProductService {
 
 
     public List<Product> sortProductList(String sorter){
+        System.out.println("hello");
         List<Product> products;
         products = repo.findAll();
 

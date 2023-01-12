@@ -1,10 +1,10 @@
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.reserver.ProductReserver.API.Product.Product;
 import com.reserver.ProductReserver.API.Product.ProductController;
 import com.reserver.ProductReserver.API.Product.ProductRepository;
 import com.reserver.ProductReserver.API.Product.ProductService;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,28 +16,23 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -45,16 +40,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTests {
 
-    private MockMvc mockMvcController;
+    @Autowired
+    private MockMvc mockMvc;
 
-    ObjectMapper objectMapper = new ObjectMapper();
-    ObjectWriter objectWriter = objectMapper.writer();
+    @MockBean
+    private ProductService productService;
 
     @Mock
     private ProductRepository productRepository;
-
-    @Mock
-    private ProductService productService;
 
     @InjectMocks
     private ProductController productController;
@@ -66,32 +59,42 @@ public class ProductServiceTests {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.mockMvcController = MockMvcBuilders.standaloneSetup(productController).build();
+//        this.mockMvc = MockMvcBuilders.standaloneSetup(productController).build();
     }
 
-    //need to have JWT tokens.
     @Test
     public void getAllProductsEndPoint() throws Exception {
+        String sorter = "id";
 
-        List<Product> products = Arrays.asList(Product_1, Product_2, Product_3);
+//        given(productService.sortProductList(sorter)).willReturn(Arrays.asList(Product_1, Product_2, Product_3));
 
-        given(productRepository.findAll())
-                .willReturn(products);
+        when(productRepository.findAll()).thenReturn(Arrays.asList(Product_1, Product_2, Product_3));
 
-        MvcResult mvcResult = mockMvcController.perform(MockMvcRequestBuilders
-                .get("/{sorter}", "id")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn();
+//        List<Product> products = productService.sortProductList(sorter);
 
-        assertEquals(200, mvcResult.getResponse().getStatus());
-        List<Product> result = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<Product>>() {});
+        mockMvc.perform(MockMvcRequestBuilders.get("/{sorter}", sorter))
+                        .andExpect(MockMvcResultMatchers.status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(jsonPath("$", hasSize(3)));
 
-        assertEquals(products.size(), result.size());
+//        assertEquals(3, products.size());
     }
+
+//    @Test
+//    public void getAllProducts() throws Exception {
+//        String sorter = "id";
+//
+//        when(productRepository.findAll()).thenReturn(Arrays.asList(Product_1, Product_2, Product_3));
+//
+//        List<Product> products = productService.sortProductList(sorter);
+//
+//        assertEquals(3, products.size());
+//    }
+
 
     @Test
     public void updateProductsTotalUseEndPoint() throws Exception {
-        mockMvcController.perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
             .put("/1/5)")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
@@ -99,7 +102,11 @@ public class ProductServiceTests {
 
     @Test
     public void createProductEndPoint() throws Exception {
-        MvcResult mvcResult = mockMvcController.perform(MockMvcRequestBuilders.post("/CreateProduct").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(Product_1))).andReturn();
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                .post("/CreateProduct")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(Product_1)))
+                .andReturn();
 
         assertEquals(201, mvcResult.getResponse().getStatus());
     }

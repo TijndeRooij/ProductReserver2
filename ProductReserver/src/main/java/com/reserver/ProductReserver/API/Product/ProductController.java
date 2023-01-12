@@ -1,6 +1,7 @@
 package com.reserver.ProductReserver.API.Product;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,19 +15,21 @@ import java.util.List;
 @RequestMapping(path="")
 public class ProductController {
 
+    @Autowired
     private final ProductService productService;
 
-    @Autowired
-    private ProductRepository repo;
-
-    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
     @GetMapping("/{sorter}")
     public List<Product> getSortedProducts(@PathVariable String sorter){
-        return productService.sortProductList(sorter);
+        try {
+            return productService.sortProductList(sorter);
+        } catch (Exception e) {
+            System.out.println("error");
+            return null;
+        }
     }
 
     @GetMapping("/name:/{name}")
