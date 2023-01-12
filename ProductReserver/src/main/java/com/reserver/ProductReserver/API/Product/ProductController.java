@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200", "http://localhost:8081", "http://localhost:8080" })
@@ -16,20 +17,15 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private final ProductService productService;
+    private ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+//    public ProductController(ProductService productService) {
+//        this.productService = productService;
+//    }
 
     @GetMapping("/{sorter}")
     public List<Product> getSortedProducts(@PathVariable String sorter){
-        try {
-            return productService.sortProductList(sorter);
-        } catch (Exception e) {
-            System.out.println("error");
-            return null;
-        }
+        return productService.sortProductList(sorter);
     }
 
     @GetMapping("/name:/{name}")

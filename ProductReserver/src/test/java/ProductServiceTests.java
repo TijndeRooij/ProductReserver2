@@ -16,6 +16,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,12 +40,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(MockitoJUnitRunner.class)
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class ProductServiceTests {
 
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
-    @MockBean
+    @InjectMocks
     private ProductService productService;
 
     @Mock
@@ -59,37 +63,35 @@ public class ProductServiceTests {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-//        this.mockMvc = MockMvcBuilders.standaloneSetup(productController).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(productController).build();
     }
 
     @Test
     public void getAllProductsEndPoint() throws Exception {
         String sorter = "id";
 
-//        given(productService.sortProductList(sorter)).willReturn(Arrays.asList(Product_1, Product_2, Product_3));
+//        when(productRepository.findAll()).thenReturn(Arrays.asList(Product_1, Product_2, Product_3));
+        given(productService.sortProductList(sorter)).willReturn(Arrays.asList(Product_1, Product_2, Product_3));
+
+//        List<Product> products = productService.sortProductList(sorter);
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/{sorter}", sorter))
+                        .andExpect(MockMvcResultMatchers.status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                        .andReturn();
+
+        assertEquals(3, mvcResult.getResponse().getContentLength());
+    }
+
+    @Test
+    public void getAllProducts() throws Exception {
+        String sorter = "id";
 
         when(productRepository.findAll()).thenReturn(Arrays.asList(Product_1, Product_2, Product_3));
 
-//        List<Product> products = productService.sortProductList(sorter);
+        List<Product> products = productService.sortProductList(sorter);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/{sorter}", sorter))
-                        .andExpect(MockMvcResultMatchers.status().isOk())
-                        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(jsonPath("$", hasSize(3)));
-
-//        assertEquals(3, products.size());
+        assertEquals(3, products.size());
     }
-
-//    @Test
-//    public void getAllProducts() throws Exception {
-//        String sorter = "id";
-//
-//        when(productRepository.findAll()).thenReturn(Arrays.asList(Product_1, Product_2, Product_3));
-//
-//        List<Product> products = productService.sortProductList(sorter);
-//
-//        assertEquals(3, products.size());
-//    }
 
 
     @Test
