@@ -70,10 +70,8 @@ public class ProductServiceTests {
     public void getAllProductsEndPoint() throws Exception {
         String sorter = "id";
 
-//        when(productRepository.findAll()).thenReturn(Arrays.asList(Product_1, Product_2, Product_3));
-        given(productService.sortProductList(sorter)).willReturn(Arrays.asList(Product_1, Product_2, Product_3));
+        when(productRepository.findAll()).thenReturn(Arrays.asList(Product_1, Product_2, Product_3));
 
-//        List<Product> products = productService.sortProductList(sorter);
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/{sorter}", sorter))
                         .andExpect(MockMvcResultMatchers.status().isOk())
                         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
